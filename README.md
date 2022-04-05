@@ -5,11 +5,12 @@ Thank you for viewing this project! This uses the Wonde PHP Client within the La
 # Getting started
 
 * Clone repo/download files
-* Copy the .env.example file and create .env, while a database isn't required, the Wonde API key is stored here.
+* Copy the .env.example file and create .env, while a database isn't required, the Wonde API key is stored here. You'll need to add WONDE_API_KEY=YOUR_API_KEY_HERE
 * Navigate to the directory within terminal and run the following commands;
     * composer install
     * php artisan serve
 * Once the serve command has finished, navigate to http:127.0.0.1:8000 in your browser. This should redirect you to /lessons.
+* The code for this project can be found in /app/Http/Controllers/LessonController.php
 
 # Using the project
 
