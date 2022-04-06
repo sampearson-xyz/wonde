@@ -10,7 +10,6 @@ Thank you for viewing this project! This uses the Wonde PHP Client within the La
     * composer install
     * php artisan serve
 * Once the serve command has finished, navigate to http:127.0.0.1:8000 in your browser. This should redirect you to /lessons.
-* The code for this project can be found in /app/Http/Controllers/LessonController.php
 
 # Using the project
 
