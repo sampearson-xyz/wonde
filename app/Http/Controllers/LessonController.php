@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Wonde\Client;
-
+use App\Services\Wonde\Wonde;
 
 class LessonController extends Controller
 {
+    public $wondeApi;
+
+    public function __construct()
+    {
+        $this->wondeApi = new Wonde();
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,22 +20,18 @@ class LessonController extends Controller
      */
     public function index()
     {
-        $lessons = $this->get();
-
-        return response(view('lessons.index')->with(['lessons' => $lessons]));
+        return response(view('lessons.index')->with(['lessons' => $this->wondeApi->lessons('A333207420')]));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function show(string $id)
     {
-        $lesson = $this->get($id);
-
-        return response(view('lessons.show')->with(['students' => $lesson[0]->students, 'class_name' => $lesson[0]->class_name]));
+        return response(view('lessons.show')->with(['lesson' => $this->wondeApi->lessons('A333207420', $id)[0]]));
     }
 
     /**
@@ -43,7 +44,7 @@ class LessonController extends Controller
     private function get(string $class_id = null)
     {
         // Instantiate Wonde Client
-        $client = new Client(getenv('WONDE_API_KEY'));
+        $client = new Client(config('wonde.api_key'));
 
         // Set school ID
         $school = $client->school('A1930499544');
@@ -99,16 +100,10 @@ class LessonController extends Controller
             }
         }
 
-        return $this->sort_lessons($lessons);
-    }
+        $lessons = collect($lessons);
 
-    private function sort_lessons($lessons)
-    {
-        // Sort the lessons array by date ascending
-        usort($lessons, function($a, $b) {
-            return new \DateTime($a->start_at->date) <=> new \DateTime($b->start_at->date);
-        });
-
-        return $lessons;
+        return $lessons->sortBy([
+            fn ($a, $b) => $a->start_at->date <=> $b->start_at->date
+        ]);
     }
 }

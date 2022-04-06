@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    <h1 class="text-3xl mb-8">{{ $class_name }}</h1>
+    <h1 class="text-3xl mb-8">{{ $lesson->class_name }}</h1>
 
     <div class="overflow-x-auto">
         <table class="table-fixed min-w-full text-sm divide-y-2 divide-gray-200">
@@ -11,7 +11,7 @@
             </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
-            @foreach($students as $student)
+            @foreach($lesson->students as $student)
                 <tr>
                     <td class="pr-4 py-4 text-gray-700 whitespace-nowrap">{{ $student->forename }} {{ $student->surname }}</td>
                 </tr>
